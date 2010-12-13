@@ -1,0 +1,34 @@
+GCC:=g++
+CC:=gcc
+CFLAGS:=-c -Wall -g
+LDFLAGS:=-lboost_regex -lboost_program_options
+SOURCES:=main.cc vcd_parser.cc scalar_var.cc vector_var.cc vcd_comparator.cc fst_writer.cc
+FST_SRC:=libfst/fstapi.c libfst/jrb.c libfst/fastlz.c
+Z_SRC:=libz/adler32.c libz/gzread.c libz/uncompr.c libz/compress.c libz/gzwrite.c  libz/inflate.c libz/crc32.c \
+libz/gzclose.c libz/infback.c libz/inffast.c libz/inftrees.c libz/trees.c libz/zutil.c libz/deflate.c libz/gzlib.c
+
+OBJECTS=$(SOURCES:.cc=.o)
+FST_OBJ=$(FST_SRC:.c=.o)
+Z_OBJ=$(Z_SRC:.c=.o)
+
+all: gperf vcdct
+vcdct: $(OBJECTS) $(FST_OBJ) $(Z_OBJ)
+	$(GCC) $(LDFLAGS) $(OBJECTS) $(FST_OBJ) $(Z_OBJ) -o $@
+var_type_hash.hpp: var_type_code.h var_type.gperf
+	gperf -CGD -N IsValidVarType -L C++ -t var_type.gperf > var_type_hash.hpp
+gperf: var_type_hash.hpp
+main.o: common.h
+vcd_parser.o: vcd_header.h vcd_parser.h variable.h scalar_var.h vector_var.h \
+parse_exception.h common.h
+scalar_var.o: variable.h scalar_var.h common.h trace.h
+vector_var.o: vector_var.h common.h trace.h
+vcd_comparator.o: common.h vcd_comparator.h
+fst_writer.o: fst_writer.h
+variable.h: var_type_code.h
+%.o: %.cc
+	$(GCC) $(CFLAGS) -c $*.cc -o $@
+%.o: %.c
+	$(CC) $(CFLAGS) -c $*.c -o $@
+.PHONY: clean
+clean:
+	rm -f $(OBJECTS) $(FST_OBJ) $(Z_OBJ) var_type_hash.hpp main

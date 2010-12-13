@@ -1,0 +1,25 @@
+%{
+#include "var_type_code.h"
+%}
+struct VarType {
+	const char *name;
+	int  VarTypeCode;
+};
+%%
+event, VarTypeCode::event
+integer, VarTypeCode::integer
+parameter, VarTypeCode::parameter
+real, VarTypeCode::real
+reg, VarTypeCode::reg
+supply0, VarTypeCode::supply0
+supply1, VarTypeCode::supply1
+time, VarTypeCode::time
+tri, VarTypeCode::tri
+triand, VarTypeCode::triand
+trior, VarTypeCode::trior
+trireg, VarTypeCode::trireg
+tri0, VarTypeCode::tri0
+tri1, VarTypeCode::tri1
+wand, VarTypeCode::wand
+wire, VarTypeCode::wire
+wor, VarTypeCode::wor

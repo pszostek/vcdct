@@ -1,0 +1,58 @@
+$date
+	Mon Dec 13 15:44:54 2010
+
+$end
+$version
+	vcdct 0.1
+$end
+$timescale
+	1s
+$end
+$scope module top $end
+$scope module m1 $end
+$var trireg 1 ! net2_comp $end
+$upscope $end
+$upscope $end
+$scope module top $end
+$scope module m1 $end
+$var trireg 1 " net3_comp $end
+$upscope $end
+$upscope $end
+$scope module top $end
+$scope module m1 $end
+$var trireg 1 # net1_comp $end
+$upscope $end
+$upscope $end
+$scope module top $end
+$scope task t1 $end
+$var reg 32 $ accumulator[31:0]_comp $end
+$upscope $end
+$upscope $end
+$scope module top $end
+$scope task t1 $end
+$var integer 32 % index_comp $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+z#
+#499
+0#
+bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz %
+bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz $
+z"
+z!
+#500
+1!
+1"
+b11111111111111111111111111111111 $
+b11111111111111111111111111111111 %
+1#
+#505
+0#
+#509
+0"
+#520
+1"
+#535
+1#
