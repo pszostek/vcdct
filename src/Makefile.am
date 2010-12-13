@@ -9,3 +9,4 @@ vcdct_SOURCES=common.h fst_writer.h main.cpp parse_exception.h scalar_var.h \
 	vcd_parser.cpp vector_var.cpp variable.cpp
 vcdct_LDADD = $(top_builddir)/src/libfst/libfst.a $(top_builddir)/src/libz/libz.a
 #vcdct_LDADD = $(AM_LDFLAGS)
+
