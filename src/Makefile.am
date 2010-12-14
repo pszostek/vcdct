@@ -1,5 +1,5 @@
 SUBDIRS=libfst libz
-#AM_CXXFLAGS = -Wunused -Wshadow -Wall -pg -I$(top_srcdir)/src @AM_CXXFLAGS@
+AM_CXXFLAGS = -I$(top_srcdir)/src @AM_CXXFLAGS@
 AM_LDFLAGS = @AM_LDFLAGS@
 bin_PROGRAMS = vcdct
 vcdct_SOURCES=common.h fst_writer.h main.cpp parse_exception.h scalar_var.h \

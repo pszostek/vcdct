@@ -4,8 +4,16 @@
 #include <fstream>
 #include <iostream>
 #include <stack>
-#include <boost/shared_ptr.hpp>
-#include <boost/lexical_cast.hpp>
+#ifdef BOOST_SHARED_PTR_HPP
+  #include <boost/shared_ptr.hpp>
+#else
+  #include "boost/shared_ptr.hpp"
+#endif
+#ifdef BOOST_LEXICAL_CAST_HPP
+  #include <boost/lexical_cast.hpp>
+#else
+  #include "boost/lexical_cast.hpp"
+#endif
 #include "vcd_header.h"
 #include "variable.h"
 #include "vector_var.h"

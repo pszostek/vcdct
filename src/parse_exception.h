@@ -3,8 +3,11 @@
 
 #include <stdexcept>
 #include <string>
-#include <boost/lexical_cast.hpp>
-
+#ifdef BOOST_LEXICAL_CAST_HPP
+  #include <boost/lexical_cast.hpp>
+#else
+  #include "boost/lexical_cast.hpp"
+#endif
 using boost::lexical_cast;
 
 namespace VcdCT {

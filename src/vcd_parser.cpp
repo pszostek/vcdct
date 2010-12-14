@@ -4,8 +4,17 @@
 #include <vector>
 #include <stack>
 #include <algorithm>
-#include <boost/lambda/lambda.hpp>
-#include <boost/bind.hpp>
+
+#ifdef HAVE_BOOST_LAMBDA_LAMBDA_HPP
+  #include <boost/lambda/lambda.hpp>
+#else
+  #include "boost/lambda/lambda.hpp"
+#endif
+#ifdef HAVE_BOOST_BIND_HPP
+  #include <boost/bind.hpp>
+#else
+  #include "boost/bind.hpp"
+#endif
 
 #include "common.h"
 #include "vcd_parser.h"

@@ -6,8 +6,17 @@
 #include <utility>
 #include <vector>
 #include <iostream>
-#include <boost/shared_ptr.hpp>
-#include <boost/foreach.hpp>
+
+#ifdef BOOST_SHARED_PTR_HPP
+  #include <boost/shared_ptr.hpp>
+#else
+  #include "boost/shared_ptr.hpp"
+#endif
+#ifdef BOOST_FOREACH_HPP
+  #include <boost/foreach.hpp>
+#else
+  #include "boost/foreach.hpp"
+#endif
 #include "common.h"
 #include "container_variable.h"
 #include "trace.h"

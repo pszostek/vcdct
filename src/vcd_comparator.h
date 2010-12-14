@@ -1,8 +1,16 @@
 #ifndef _VCD_COMPARATOR_H_
 #define _VCD_COMPARATOR_H_
 
-#include <boost/shared_ptr.hpp>
-#include <boost/lexical_cast.hpp>
+#ifdef BOOST_SHARED_PTR_HPP
+  #include <boost/shared_ptr.hpp>
+#else
+  #include "boost/shared_ptr.hpp"
+#endif
+#ifdef BOOST_LEXICAL_CAST_HPP
+  #include <boost/lexical_cast.hpp>
+#else
+  #include "boost/lexical_cast.hpp"
+#endif
 #include "common.h"
 #include "scalar_var.h"
 #include "vcd_header.h"

@@ -5,7 +5,11 @@
 #include <iterator>
 #include <vector>
 #include <map>
-#include <boost/shared_ptr.hpp>
+#ifdef BOOST_SHARED_PTR_HPP
+  #include <boost/shared_ptr.hpp>
+#else
+  #include "boost/shared_ptr.hpp"
+#endif
 #include "scalar_var.h"
 #include "variable.h"
 #include "vector_var.h"

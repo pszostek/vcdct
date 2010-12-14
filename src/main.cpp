@@ -3,7 +3,11 @@
 #include <fstream>
 #include <string>
 #include <stdexcept>
-#include <boost/function.hpp>
+#ifdef BOOST_FUNCTION_HPP
+  #include <boost/function.hpp>
+#else
+  #include "boost/function.hpp"
+#endif
 #include "common.h"
 #include "fst_writer.h"
 #include "vcd_header.h"
