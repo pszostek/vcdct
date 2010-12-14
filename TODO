@@ -1,2 +1,5 @@
 TODO:
 -change value dump type for sth more memory-efficient than char
+-eliminate usage of BOOST_FOREACH (?)
+-add boost headers for shared_ptr and BOOST_FOREACH (if they are not thrown out) in case boost is not installed on a computer
+-tune fst scope writing (the thing with up- and downscoping)
