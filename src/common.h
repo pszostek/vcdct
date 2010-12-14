@@ -4,7 +4,11 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-
+#ifdef HAVE_BOOST_FOREACH_HPP
+	#include <boost/foreach.hpp>
+#else
+	#include "boost/foreach.hpp"
+#endif
 namespace VcdCT {
 /* 
 	Function used for displaying debugging info.
