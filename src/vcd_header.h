@@ -16,12 +16,7 @@
 
 #include "trace.h"
 
-using std::string;
-using std::vector;
 using boost::shared_ptr;
-using std::map;
-using std::iterator;
-using std::pair;
 
 namespace VcdCT {
 

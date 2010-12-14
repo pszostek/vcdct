@@ -24,6 +24,9 @@ static shared_ptr<VCDHeader> compare(const std::string& infile1Name,
 										const std::string& infile2Name, 
 											const std::string& ofileName) 
 												throw(FileHandlingException, ParseException);
+/**
+  Prints error message when program is invoked with invalid arguments or with --help
+*/
 static void printUsage() {
 	std::cout << "VCD Compare Tool version " << VERSION << std::endl <<
 			"Usage: " << 
@@ -38,7 +41,9 @@ static void printUsage() {
 
 int main(int argc, char** argv) {
 	
-	/* DISABLE STREAM SYNCHRONIZATION */
+	/** Stream synchronization is disabled in order to make
+		operation on stream faster
+	*/
 	std::ios_base::sync_with_stdio(0);
 	std::string infile1Name, infile2Name, ofileName;
 	bool isCompare, isCheck, isOutput, isPrint;
@@ -50,19 +55,19 @@ int main(int argc, char** argv) {
 		int optionIndex = 0;
 		static struct option long_options[] =
 			{
-				{"compare", 0, 0, 'c'},
-				{"check", 0, 0, 'k'},
-				{"print", 0, 0, 'p'},
+				{"compare", no_argument, 0, 'c'},
+				{"check", no_argument, 0, 'k'},
+				{"print", no_argument, 0, 'p'},
 				{"output", required_argument, 0, 'o'}, 
 				{"help", no_argument, 0, 'h'},
-				{0,0,0,0}
+				{0,0,0,0} //end delimiter
 			};
 		c = getopt_long(argc, argv, "kcpo:h", long_options, &optionIndex);
 		if(c == -1) { /* nor more args */
 			break;
 		} 
 		
-		switch(c) {
+		switch(c) { /* check options and mark option flags */
 			case 'k': isCheck = 1; break;
 			case 'c': isCompare = 1; break;
 			case 'p': isPrint = 1; break;
@@ -74,22 +79,21 @@ int main(int argc, char** argv) {
 				break;
 		}
 	} //while(1)	
-	/*if(isCompare && isCheck && isDisplay) {
-		std::cout << "Error: too many options selected." << std::endl;
-		printUsage();
-		return 1;
-	}*/
+	
+	/* Only one of checked options is possible at a time */
 	if(isCompare + isCheck + isPrint > 1) {
 		std::cout << "Error: too many options selected." << std::endl;
 		printUsage();
 		return 1;
 	}
+	/* At least one of these options must be given */
 	if(isCompare + isCheck + isPrint < 1) {
 		std::cout << "Error: too few options selected." << std::endl;
 		printUsage();
 		return 1;
 	}
 	int numberOfFiles = argc-optind;
+	/* Comparison requires two files as arguments */
 	if(isCompare && numberOfFiles != 2) {
 		std::cout << "Error: comparison requires two files." << std::endl;
 		printUsage();
@@ -103,11 +107,12 @@ int main(int argc, char** argv) {
 		}
 		
 		bool fail = false;
+		/* check syntax for each of files listed as argument */
 		while(optind < argc) {
 			std::string filename = argv[optind++]; 
 			try{
 				check(filename);
-				std::cout << "File " << filename << " stated correctly." << std::endl;
+				std::cout << "File " << filename << " formed correctly." << std::endl;
 				std::cout << "----------------------------" << std::endl;
 			} catch(ParseException& exception) {
 				fail = true;
@@ -121,8 +126,7 @@ int main(int argc, char** argv) {
 			}
 		}
 		if(fail == false) {
-			std::cout << "----------------------------\n";
-			std::cout << "All files stated correctly." << std::endl;
+			std::cout << "All files formed correctly." << std::endl;
 			return 0;  
 		}
 	}
@@ -188,12 +192,13 @@ static bool print(const std::string& infileName)
 		parser.parseValueDump(ph, dump);
 	}
 	std::cout << "SCALARS" << std::endl;
-	for(map<std::string,shared_ptr<ScalarVar> >::const_iterator it = ph->getScalars().begin(); it != ph->getScalars().end(); ++it)
+	for(std::map<std::string,shared_ptr<ScalarVar> >::const_iterator it = ph->getScalars().begin(); it != ph->getScalars().end(); ++it)
 		std::cout << *(it->second) << std::endl;
 	std::cout << "VECTORS" << std::endl;
-	for(map<std::string,shared_ptr<VectorVar> >::const_iterator it = ph->getVectors().begin(); it != ph->getVectors().end(); ++it)
+	for(std::map<std::string,shared_ptr<VectorVar> >::const_iterator it = ph->getVectors().begin(); it != ph->getVectors().end(); ++it)
 		std::cout << *(it->second) << std::endl;
 	/* if an exception has not been thrown, before then everything is ok with the files */	
+	infile.close();
 	return true;
 }
 static bool check(const std::string& infileName) 
@@ -213,12 +218,8 @@ static bool check(const std::string& infileName)
 		std::string dump = parser.readOneDump(infile);
 		parser.parseValueDump(ph, dump);
 	}
-	for(map<std::string,shared_ptr<ScalarVar> >::const_iterator it = ph->getScalars().begin(); it != ph->getScalars().end(); ++it)
-		std::cout << *(it->second) << std::endl;
-	for(map<std::string,shared_ptr<VectorVar> >::const_iterator it = ph->getVectors().begin(); it != ph->getVectors().end(); ++it)
-		std::cout << *(it->second) << std::endl;
 	/* if an exception has not been thrown, before then everything is ok with the files */	
-
+	infile.close();
 	return true;
 }
 	
@@ -255,31 +256,11 @@ static shared_ptr<VCDHeader> compare(const std::string& infile1Name, const std::
 		std::string dump = parser.readOneDump(infile1);
 		parser.parseValueDump(ph1, dump);
 	}
-	//for(map<std::string,shared_ptr<ScalarVar> >::const_iterator it = ph1->getScalars().begin(); it != ph1->getScalars().end(); ++it)
-	//    cout << *(it->second) << endl;
 	while(infile2.good()) {
 		std::string dump = parser.readOneDump(infile2);
 		parser.parseValueDump(ph2, dump);
 	}
-	/*for(std::map<std::string, shared_ptr<ScalarVar> >::const_iterator it = ph1->getScalars().begin();
-		it != ph1->getScalars().end(); ++it) {
-		cout << *(it->second) << endl;
-	}
-	for(std::map<std::string, shared_ptr<ScalarVar> >::const_iterator it = ph2->getScalars().begin();
-		it != ph2->getScalars().end(); ++it) {
-		cout << *(it->second) << endl;
-	}
-	*/
 	shared_ptr<VCDHeader> comparisonResult = VCDComparator::getInstance().compareFiles(ph1,ph2);
-	/*for(std::map<std::string, shared_ptr<ScalarVar> >::const_iterator it = comparisonResult->getScalars().begin();
-		it != comparisonResult->getScalars().end(); ++it) {
-		std::cout << *(it->second) << std::endl;
-	}
-	for(std::map<std::string, shared_ptr<VectorVar> >::const_iterator it = comparisonResult->getVectors().begin();
-		it != comparisonResult->getVectors().end(); ++it) {
-		std::cout << *(it->second) << std::endl;
-	}
-	*/
 	FSTWriter f(ofileName);
 	f.writeDownFST(comparisonResult);
 	
@@ -288,4 +269,3 @@ static shared_ptr<VCDHeader> compare(const std::string& infile1Name, const std::
 
   return comparisonResult;
 }
-

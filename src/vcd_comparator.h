@@ -1,23 +1,11 @@
 #ifndef _VCD_COMPARATOR_H_
 #define _VCD_COMPARATOR_H_
 
-#ifdef BOOST_SHARED_PTR_HPP
-  #include <boost/shared_ptr.hpp>
-#else
-  #include "boost/shared_ptr.hpp"
-#endif
-#ifdef BOOST_LEXICAL_CAST_HPP
-  #include <boost/lexical_cast.hpp>
-#else
-  #include "boost/lexical_cast.hpp"
-#endif
 #include "common.h"
 #include "scalar_var.h"
 #include "vcd_header.h"
 #include "vector_var.h"
 #include "container_variable.h"
-
-using boost::lexical_cast;
 
 namespace VcdCT {
 	class VCDComparator {
@@ -29,7 +17,7 @@ namespace VcdCT {
 		shared_ptr<VCDHeader> compareFiles(shared_ptr<VCDHeader> h1, shared_ptr<VCDHeader> h2);
 	private:		
 		static ScalarVar::value_t compareValues(ScalarVar::value_t v1, ScalarVar::value_t v2) { 
-			return ScalarVar::value_t(lexical_cast<char>(v1 == v2)); 
+			return ScalarVar::value_t(toString(v1 == v2).c_str()[0]); 
 		}
 		static VectorVar::value_t compareValues(VectorVar::value_t v1, VectorVar::value_t v2) {
 		    const VectorVar::value_t::const_iterator end = v1.end();

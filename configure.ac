@@ -34,7 +34,6 @@ AC_CHECK_HEADERS(string iostream utility fstream stdexcept list vector map itera
 AC_CHECK_HEADERS(boost/function.hpp boost/lexical_cast.hpp boost/shared_ptr.hpp boost/foreach.hpp)
 AC_CHECK_HEADERS(boost/lambda/lambda.hpp boost/bind.hpp)
 
-if 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
 AC_C_CONST

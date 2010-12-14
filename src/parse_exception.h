@@ -3,12 +3,7 @@
 
 #include <stdexcept>
 #include <string>
-#ifdef BOOST_LEXICAL_CAST_HPP
-  #include <boost/lexical_cast.hpp>
-#else
-  #include "boost/lexical_cast.hpp"
-#endif
-using boost::lexical_cast;
+#include "common.h"
 
 namespace VcdCT {
 	const static std::string colon_ = std::string(":");
@@ -20,13 +15,13 @@ namespace VcdCT {
 	public:
 		ParseException(const std::string& msg = "Error while parsing input file") : runtime_error(msg) {}
 		static std::string makeErrMsg(const char* file, const int line) {
-			return (leftBracket_ + std::string(file) + colon_ + lexical_cast<std::string>(line) + rightBracket_);
+			return (leftBracket_ + std::string(file) + colon_ + toString(line) + rightBracket_);
 		}
 		static std::string makeErrMsg(const char* file, const int line, const std::string& msg) {
-			return (leftBracket_ + std::string(file) + colon_ + lexical_cast<std::string>(line) + rightBracket_ + space_ + msg);
+			return (leftBracket_ + std::string(file) + colon_ + toString(line) + rightBracket_ + space_ + msg);
 		}
 		static std::string makeErrMsg(const char* file, const int line, const std::string& msg1,const std::string& msg2) {
-			return (leftBracket_ + std::string(file) + colon_ + lexical_cast<std::string>(line) + rightBracket_ + space_ + msg1 + space_ + msg2);
+			return (leftBracket_ + std::string(file) + colon_ + toString(line) + rightBracket_ + space_ + msg1 + space_ + msg2);
 		}
 	};
 } //namespace

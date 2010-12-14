@@ -3,12 +3,8 @@
 
 #include <stdexcept>
 #include <string>
-#ifdef BOOST_LEXICAL_CAST_HPP
-  #include <boost/lexical_cast.hpp>
-#else
-  #include "boost/lexical_cast.hpp"
-#endif
 #include <string>
+#include "common.h"
 #include "parse_exception.h"
 
 namespace VcdCT {
@@ -16,7 +12,7 @@ namespace VcdCT {
 	public:
 		FileHandlingException(const std::string& msg = "Error while handling input/output file") : runtime_error(msg) {}
 		static std::string makeErrMsg(const char* file, const int line) {
-			return (leftBracket_ + std::string(file) + colon_ + boost::lexical_cast<std::string>(line) + rightBracket_);
+			return (leftBracket_ + std::string(file) + colon_ + toString(line) + rightBracket_);
 		}
 	};
 }

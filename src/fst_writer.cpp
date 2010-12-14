@@ -110,8 +110,8 @@ namespace VcdCT {
 	  // 
 	  
 	  uint64_t curTime = 0;
-	  map<std::string, ScalarVar::iterator> smap;
-	  map<std::string, VectorVar::iterator> vmap;
+	  std::map<std::string, ScalarVar::iterator> smap;
+	  std::map<std::string, VectorVar::iterator> vmap;
 
 	  bool sthDone = false;
 	  bool timeChanged = false;
@@ -137,7 +137,7 @@ namespace VcdCT {
 		sthDone = false;
 		timeChanged = false;
 		minTime = 0-1; //max uint64_t value
-			for(map<std::string, ScalarVar::iterator>::iterator smapIter=smap.begin(); smapIter != smap.end(); ++smapIter) {
+			for(std::map<std::string, ScalarVar::iterator>::iterator smapIter=smap.begin(); smapIter != smap.end(); ++smapIter) {
 				if(smapIter->second != scalars[smapIter->first]->end()) {
 					sthDone = true;
 					if(!timeChanged) {
@@ -163,7 +163,7 @@ namespace VcdCT {
 				}
 			}
 			
-			for(map<std::string, VectorVar::iterator>::iterator vmapIter=vmap.begin(); vmapIter != vmap.end(); ++vmapIter) {
+			for(std::map<std::string, VectorVar::iterator>::iterator vmapIter=vmap.begin(); vmapIter != vmap.end(); ++vmapIter) {
 				if(vmapIter->second != vectors[vmapIter->first]->end()) {
 					sthDone = true;
 					if(!timeChanged) {

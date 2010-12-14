@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 
 namespace VcdCT {
 /* 
@@ -26,6 +27,18 @@ namespace VcdCT {
 	#define DBG_MSG(x)
 	#endif
 	
+	template<typename T> T fromString(const std::string str) {
+		std::istringstream stream;
+		T ret;
+		stream.str(str);
+		stream >> ret;
+		return ret;
+	}
+	template<typename T> std::string toString(const T sth) {
+		std::ostringstream stream;
+		stream << sth;
+		return stream.str();
+	}
 } //namespace
 
 #endif //_COMMON_H_

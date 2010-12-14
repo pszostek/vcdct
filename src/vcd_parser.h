@@ -9,11 +9,6 @@
 #else
   #include "boost/shared_ptr.hpp"
 #endif
-#ifdef BOOST_LEXICAL_CAST_HPP
-  #include <boost/lexical_cast.hpp>
-#else
-  #include "boost/lexical_cast.hpp"
-#endif
 #include "vcd_header.h"
 #include "variable.h"
 #include "vector_var.h"
@@ -31,8 +26,8 @@ using boost::shared_ptr;
 class VCDParser {
 	public:
 		shared_ptr<VCDHeader> parseHeader(const std::string& hdr) const throw(ParseException);
-		string readInHeader(std::ifstream& inFile) const throw(ParseException);
-		string readOneDump(std::ifstream& inFile) const throw(ParseException);
+		std::string readInHeader(std::ifstream& inFile) const throw(ParseException);
+		std::string readOneDump(std::ifstream& inFile) const throw(ParseException);
 		void skipComment(std::ifstream& inFile) const throw(ParseException);
 		void parseValueDump(shared_ptr<VCDHeader>& header, const std::string oneDump) const throw(ParseException);
 		void writeDownFST(shared_ptr<VCDHeader>& header, std::string file);

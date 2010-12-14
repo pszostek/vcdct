@@ -15,11 +15,11 @@ namespace VcdCT {
 		shared_ptr<VCDHeader> ret = shared_ptr<VCDHeader>(new VCDHeader());
 		
 		{ /* scope for vectors */
-		    map<std::string, shared_ptr<VectorVar> >::const_iterator h1VecIter= h1->getVectors().begin();
-		    map<std::string, shared_ptr<VectorVar> >::const_iterator h2VecIter= h2->getVectors().begin();
+		    std::map<std::string, shared_ptr<VectorVar> >::const_iterator h1VecIter= h1->getVectors().begin();
+		    std::map<std::string, shared_ptr<VectorVar> >::const_iterator h2VecIter= h2->getVectors().begin();
 		
-		    const map<std::string, shared_ptr<VectorVar> >::const_iterator h1VecEnd= h1->getVectors().end();
-		    const map<std::string, shared_ptr<VectorVar> >::const_iterator h2VecEnd= h2->getVectors().end();
+		    const std::map<std::string, shared_ptr<VectorVar> >::const_iterator h1VecEnd= h1->getVectors().end();
+		    const std::map<std::string, shared_ptr<VectorVar> >::const_iterator h2VecEnd= h2->getVectors().end();
 		    while(h1VecIter != h1VecEnd && h2VecIter != h2VecEnd) {
 			    if(h1VecIter->first == h2VecIter->first &&  /* if names, types, lengths and scopes are equal then issue a comparison */
 				    h1VecIter->second->getVarTypeCode() == h2VecIter->second->getVarTypeCode() &&
@@ -44,11 +44,11 @@ namespace VcdCT {
 		    }
 		}
 		{   /*scope for scalars */
-		    map<std::string, shared_ptr<ScalarVar> >::const_iterator h1ScalarIter= h1->getScalars().begin();
-		    map<std::string, shared_ptr<ScalarVar> >::const_iterator h2ScalarIter= h2->getScalars().begin();
+		    std::map<std::string, shared_ptr<ScalarVar> >::const_iterator h1ScalarIter= h1->getScalars().begin();
+		    std::map<std::string, shared_ptr<ScalarVar> >::const_iterator h2ScalarIter= h2->getScalars().begin();
 		
-		    const map<std::string, shared_ptr<ScalarVar> >::const_iterator h1ScalarEnd= h1->getScalars().end();
-		    const map<std::string, shared_ptr<ScalarVar> >::const_iterator h2ScalarEnd= h2->getScalars().end();	
+		    const std::map<std::string, shared_ptr<ScalarVar> >::const_iterator h1ScalarEnd= h1->getScalars().end();
+		    const std::map<std::string, shared_ptr<ScalarVar> >::const_iterator h2ScalarEnd= h2->getScalars().end();	
 		    while(h1ScalarIter != h1ScalarEnd && h2ScalarIter != h2ScalarEnd) {
 			    if(h1ScalarIter->first == h2ScalarIter->first &&
 				    h1ScalarIter->second->getVarTypeCode() == h2ScalarIter->second->getVarTypeCode() &&

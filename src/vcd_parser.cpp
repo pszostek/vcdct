@@ -3,18 +3,8 @@
 #include <utility>
 #include <vector>
 #include <stack>
+#include <string>
 #include <algorithm>
-
-#ifdef HAVE_BOOST_LAMBDA_LAMBDA_HPP
-  #include <boost/lambda/lambda.hpp>
-#else
-  #include "boost/lambda/lambda.hpp"
-#endif
-#ifdef HAVE_BOOST_BIND_HPP
-  #include <boost/bind.hpp>
-#else
-  #include "boost/bind.hpp"
-#endif
 
 #include "common.h"
 #include "vcd_parser.h"
@@ -25,10 +15,7 @@
 #include "var_type_hash.hpp"
 #include "var_type_code.h"
 
-using namespace std;
 using boost::shared_ptr;
-using boost::bind;
-//using namespace boost::lambda;
 
 namespace VcdCT{
 	/*
@@ -150,13 +137,13 @@ namespace VcdCT{
 					If length is equal to one, then it should be a scalar.
 					If length is greater than one, then it shoudl be a vector
 				*/ 
-				short length = lexical_cast<short>(length_str);
+				short length = fromString<short>(length_str);
 				if(length == 1) { //scalar variable (of length 1)
 					//creat new scalar
 					shared_ptr<ScalarVar> ret = shared_ptr<ScalarVar>(new ScalarVar((VarTypeCode::VarTypeEnum)varType->VarTypeCode, id, reference));
 					ret->setScopes(scopes);
-					pair<map<std::string,shared_ptr<ScalarVar> >::iterator, bool> addReturnValue;
-		    		addReturnValue = header->addScalar(boost::dynamic_pointer_cast<ScalarVar>(ret));
+					std::pair<std::map<std::string,shared_ptr<ScalarVar> >::iterator, bool> addReturnValue;
+		    		addReturnValue = header->addScalar(ret);
 		    		
 		    		//if one with the same ID was previously added, report an error
 		    		if(addReturnValue.second == false && addReturnValue.first->second->getIdentifier() != ret->getIdentifier())
@@ -165,8 +152,8 @@ namespace VcdCT{
 					//creat new vector
 					shared_ptr<VectorVar> ret = shared_ptr<VectorVar> (new VectorVar((VarTypeCode::VarTypeEnum)varType->VarTypeCode, id, reference, length));
 					ret->setScopes(scopes);
-					pair<map<std::string,shared_ptr<VectorVar> >::iterator, bool> addReturnValue;
-		    		addReturnValue = header->addVector(boost::dynamic_pointer_cast<VectorVar>(ret));
+					std::pair<std::map<std::string,shared_ptr<VectorVar> >::iterator, bool> addReturnValue;
+		    		addReturnValue = header->addVector(ret);
 		    		
 		    		//if one with the same ID was previously added, report an error
 		    		if(addReturnValue.second == false && addReturnValue.first->second->getIdentifier() != ret->getIdentifier())
@@ -284,7 +271,7 @@ namespace VcdCT{
 		return hdr;
 	}
 
-	void VCDParser::skipComment(ifstream& inFile) const throw(ParseException) {
+	void VCDParser::skipComment(std::ifstream& inFile) const throw(ParseException) {
 		std::string line;
 		bool commentBegan = false;
 		while(inFile.good()) {
@@ -322,7 +309,7 @@ namespace VcdCT{
 			tokenFirstChar = token.at(0);
 			
 			if(tokenFirstChar == '#') {
-				dumpTime = lexical_cast<long>(std::string(++token.begin(), token.end())); /*skip '#' at the first position */
+				dumpTime = fromString<long>(std::string(++token.begin(), token.end())); /*skip '#' at the first position */
 				continue;
 			} else 
 			if((token == keywords[0]) | (token == keywords[1]) | (token == keywords[2]) | (token == keywords[3])){ //a keyword must have been reached
@@ -347,10 +334,10 @@ namespace VcdCT{
         for(;;){
 			if(tokenFirstChar == 'b') { /* we probably found a vector value */
 			    istream >> token1;
-			    std::string value = string(token.begin()+1, token.end()); 
+			    std::string value = std::string(token.begin()+1, token.end()); 
 			    std::string vcdid = token1; 
 			    
-			    map<std::string, shared_ptr<VectorVar> >::iterator it = header->getVectors().find(vcdid); 
+			    std::map<std::string, shared_ptr<VectorVar> >::iterator it = header->getVectors().find(vcdid); 
 			    if(it == header->getVectors().end())
 					throw ParseException(ERR("Unknown variable identifier in value dump section: " + vcdid));
 				
@@ -363,8 +350,8 @@ namespace VcdCT{
 			} else /* probably a scalar value */
 			if((tokenFirstChar == '1') | (tokenFirstChar == '0') | (tokenFirstChar == 'z') | (tokenFirstChar == 'Z') 
 				| (tokenFirstChar == 'x') | (tokenFirstChar == 'X')) {
-			    std::string vcdid = string( token.begin()+1, token.end());
-			    map<std::string, shared_ptr<ScalarVar> >::iterator it = header->getScalars().find(vcdid);
+			    std::string vcdid( token.begin()+1, token.end());
+			    std::map<std::string, shared_ptr<ScalarVar> >::iterator it = header->getScalars().find(vcdid);
 				
 				if(it == header->getScalars().end()) 
 					throw ParseException(ERR("Unknown variable identifier in value dump section:" + vcdid));
