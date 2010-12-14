@@ -108,7 +108,8 @@ am__relativize = \
   reldir="$$dir2"
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
-AM_CXXFLAGS = -Wall -pg -I$(top_srcdir)/src @AM_CXXFLAGS@
+AM_CXXFLAGS = @AM_CXXFLAGS@
+#AM_CXXFLAGS = -Wunused -Wshadow -Wall -pg -I$(top_srcdir)/src @AM_CXXFLAGS@
 AM_LDFLAGS = @AM_LDFLAGS@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
@@ -117,9 +118,9 @@ AWK = @AWK@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
-CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
+CXXCPP = @CXXCPP@
 CXXDEPMODE = @CXXDEPMODE@
 CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
@@ -157,6 +158,7 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 VERSION = @VERSION@
+XGPERF = @XGPERF@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -625,6 +627,9 @@ uninstall-am: uninstall-binPROGRAMS
 	uninstall-binPROGRAMS
 
 #vcdct_LDADD = $(AM_LDFLAGS)
+
+var_type_hash.hpp: var_type_code.h var_type.gperf
+	printf "$(GPERF) -CGD -N IsValidVarType -L C++ -t $(srcdir)/var_type.gperf > var_type_hash.hpp" | sh
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

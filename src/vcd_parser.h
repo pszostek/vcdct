@@ -6,7 +6,6 @@
 #include <stack>
 #include <boost/shared_ptr.hpp>
 #include <boost/lexical_cast.hpp>
-#include <boost/regex.hpp>
 #include "vcd_header.h"
 #include "variable.h"
 #include "vector_var.h"
