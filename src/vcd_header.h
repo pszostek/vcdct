@@ -5,7 +5,7 @@
 #include <iterator>
 #include <vector>
 #include <map>
-#ifdef BOOST_SHARED_PTR_HPP
+#ifdef HAVE_BOOST_SHARED_PTR_HPP
   #include <boost/shared_ptr.hpp>
 #else
   #include "boost/shared_ptr.hpp"

@@ -31,8 +31,7 @@ AC_CHECK_HEADER([time.h])
 AC_CHECK_HEADERS(inttypes.h limits.h malloc.h stddef.h)
 AC_CHECK_HEADERS(stdlib.h string.h unistd.h stdio.h)
 AC_CHECK_HEADERS(string iostream utility fstream stdexcept list vector map iterator algorithm stack)
-AC_CHECK_HEADERS(boost/function.hpp boost/lexical_cast.hpp boost/shared_ptr.hpp boost/foreach.hpp)
-AC_CHECK_HEADERS(boost/lambda/lambda.hpp boost/bind.hpp)
+AC_CHECK_HEADERS(boost/shared_ptr.hpp boost/foreach.hpp)
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
