@@ -8,6 +8,10 @@
 #include "parse_exception.h"
 
 namespace VcdCT {
+	/**
+		This class is used in main(). If any problem occurs while handling files,
+		then an instance of this class is thrown.
+	*/
 	class FileHandlingException : public std::runtime_error {
 	public:
 		FileHandlingException(const std::string& msg = "Error while handling input/output file") : runtime_error(msg) {}

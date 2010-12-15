@@ -19,15 +19,25 @@
 using boost::shared_ptr;
 
 namespace VcdCT {	
+	/** The class represents Scalar variable, which is one of two types
+		that are present in VCD files
+	*/
 	class ScalarVar : public ContainerVariable<unsigned long, char> {
 	public:
 		typedef unsigned long time_t;
 		typedef char value_t;
 		typedef Trace<time_t, value_t> trace_t;
 		ScalarVar(VarTypeCode::VarTypeEnum varType, std::string varIdent, std::string varReference) : ContainerVariable<time_t, value_t>(varType,varIdent,varReference) {};	
+		/** It is a implementation of pure virtual function from ContainerVariable.
+			For scalars 1 is always returned
+		*/
 		virtual short getLength() const {return 1;}
 		virtual ~ScalarVar() {};		
 		
+		/**
+			The function adds the argument to the list of
+			kept traces
+		*/
 		void addTrace(time_t time, value_t val) {
 		  Trace<time_t, value_t> newTrace(time,val);
 		  this->addTrace(newTrace);
@@ -39,9 +49,6 @@ namespace VcdCT {
 			this->push_back(newTrace);
 		  }
 		}
-// 		void addTrace(time_t time, char val) {
-// 		  this->addTrace(time, value_t(val));
-// 		}
 		friend std::ostream& operator<<(std::ostream& stream, ScalarVar& vec);
 	private:
 	};

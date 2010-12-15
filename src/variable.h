@@ -8,6 +8,10 @@
 #include "trace.h"
 
 namespace VcdCT {
+	/** Abstract class representing a variable in general. It is derived
+		by ContainerVariable. It keeps attributes that are common for both
+		scalar and vector variables
+	*/
 	class Variable{
 	public:
 		typedef enum ScopeType {MODULE = 0, TASK, FUNCTION, BEGIN, FORK} ScopeType;
@@ -21,13 +25,13 @@ namespace VcdCT {
 		virtual ~Variable() {}
 		virtual short getLength() const = 0; 
 	protected:
-		/* One of Verilog types - listed in VarType enum} */
+		/** One of Verilog types - listed in VarType enum (see var_type_code.h) */
 		VarTypeCode::VarTypeEnum varTypeCode_;
-		/* Variable identifier used in dumpfile */
+		/** Variable identifier used in dumpfile */
 		std::string varIdent_;
-		/* Reference - name of the variable */
+		/** Reference - name of the variable */
 		std::string varReference_;
-	/* Scope of variable in format scope1.scope2.scope3.(...) */
+		/** List of variable scopes, as defined in .vcd file */
 		std::vector< std::pair<ScopeType, std::string /*name*/ > > scopes_;
 		
 	};

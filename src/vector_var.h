@@ -28,6 +28,10 @@ namespace VcdCT {
 		  Trace<time_t, value_t> newTrace(time,val);
 		  this->addTrace(newTrace);
 		}
+		/**
+			The function adds the argument to the list of
+			kept traces
+		*/
 		void addTrace(trace_t newTrace) {
 		  if(this->empty()) {
 			this->push_back(newTrace);

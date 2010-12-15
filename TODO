@@ -3,3 +3,4 @@ TODO:
 -eliminate usage of BOOST_FOREACH (?)
 -add boost headers for shared_ptr and BOOST_FOREACH (if they are not thrown out) in case boost is not installed on a computer
 -tune fst scope writing (the thing with up- and downscoping)
+-do sth with timescales. For the time being they are parsed, but not used in comparison

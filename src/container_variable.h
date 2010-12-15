@@ -9,6 +9,9 @@
 #include "variable.h"
 
 namespace VcdCT {
+	/** Virtual template class that represents containing vector of traces
+		ScalarVar and VectorVar derive from it
+	*/
 	template<typename time_t, typename value_t>
 	class ContainerVariable : public std::vector<Trace<time_t, value_t> >, public Variable {
 	public:
@@ -16,6 +19,9 @@ namespace VcdCT {
 		typedef enum Value {zero, one, x, z} Value;
 		ContainerVariable(VarTypeCode::VarTypeEnum varTypeCode, std::string varIdent, std::string varReference) : Variable(varTypeCode, varIdent, varReference){};
 		virtual ~ContainerVariable() {};
+		/** This function has to be implemented in concrete classes
+			\return The length of variable's trace is returned
+		*/
 		virtual short getLength() const = 0; 
 		void addTrace(trace_t newTrace) {
 			if(this->empty()) {

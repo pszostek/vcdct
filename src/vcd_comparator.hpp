@@ -15,7 +15,7 @@
 namespace VcdCT {	
 	/*
 		Concept:
-			Comparison of two values gives results:
+			Comparison of two values results in:
 			1 if both values are the same,
 			0 if values are different,
 			z if one of the values is undefined.
@@ -25,20 +25,20 @@ namespace VcdCT {
 		typename var::const_iterator itFirst = first->begin();
 		typename var::const_iterator itSecond = second->begin();	
 		
-		//shared_ptr<var> ret = shared_ptr<var>(new var(retType, retIdentifier, retReference));
-		//DBG_MSG(__LINE__);
-		if(first->begin() == first->end() || second->begin() == second->end()) { //if one of scalars is empty
+		//DBG_MSG(__LINE
+		if(first->begin() == first->end() || second->begin() == second->end()) { //! if at least one of scalars is empty
 			//DBG_MSG(__LINE__);
-			if(first->begin() != first->end() || second->begin() != second->end()) { //if one of them is not empty
+			if(first->begin() != first->end() || second->begin() != second->end()) { //! if one of them is not empty
 				//DBG_MSG(__LINE__);
+				//! take the smaller time and put undefined
 				ret->addTrace(minTime(itFirst->getTime(), itSecond->getTime()), typename var::value_t('z')); 
 				return ret;
 			}
 			return ret;
 		}
-		
-		  if(first->back().getTime() < second->front().getTime())  //no common range
-		{	//DBG_MSG(__LINE__);
+		//! here we know, that both variables are not empty
+		if(first->back().getTime() < second->front().getTime()) {  //! no common range - the first ends before the second begins
+			//DBG_MSG(__LINE__);
 			for( /*itFirst*/; itFirst != first->end(); ++itFirst) { 
 				ret->addTrace(itFirst->getTime(), typename var::value_t('z'));
 			} 
@@ -47,7 +47,7 @@ namespace VcdCT {
 				ret->addTrace(itSecond->getTime(), t);
 			}
 			return ret;
-		} else if (second->back().getTime() < first->front().getTime()) { //no common range
+		} else if (second->back().getTime() < first->front().getTime()) { //! no common range - the second ends before the first begins
 			//DBG_MSG(__LINE__);
 			for( /*itSecond*/; itSecond != second->end(); ++itSecond) {
 				ret->addTrace(itSecond->getTime(), typename var::value_t('z'));
@@ -56,23 +56,22 @@ namespace VcdCT {
 				ret->addTrace(itFirst->getTime(), VCDComparator::compareValues(itFirst->getValue(), second->back().getValue()));
 			}
 			return ret;
-		} else { //there is common range
+		} else { //! there is common range
 			//DBG_MSG(__LINE__);
 			typename var::const_iterator itFirst_prev = itFirst;
 			typename var::const_iterator itSecond_prev = itSecond;
-			if(itFirst->getTime() < itSecond->getTime()) { //first begins before second
+			if(itFirst->getTime() < itSecond->getTime()) { //! first begins before second
 				//DBG_MSG(__LINE__);
 				do {
 					//DBG_MSG(__LINE__);
-					ret->addTrace(itFirst->getTime(), 'z'); //undefined comparison - one variable is not defined at this time
+					ret->addTrace(itFirst->getTime(), 'z'); //! undefined comparison - one variable is not defined at this time
 					itFirst_prev = itFirst++;
 				} while(itFirst->getTime() < itSecond->getTime());
-			} else if(itSecond->getTime() < itFirst->getTime()) { //second begins before first
+			} else if(itSecond->getTime() < itFirst->getTime()) { //! second begins before first
 				//DBG_MSG(__LINE__);
 				do {
-			//		std::cout << itSecond->getTime() << std::endl;
 					//DBG_MSG(__LINE__);
-					ret->addTrace(itSecond->getTime(),'z'); //undefined comparison - one variable is not defined at this time
+					ret->addTrace(itSecond->getTime(),'z'); //! undefined comparison - one variable is not defined at this time
 					itSecond_prev = itSecond++;
 				} while(itSecond->getTime() < itFirst->getTime());
 			} //else {}
