@@ -8,6 +8,7 @@
 #include <utility>
 #include <iostream>
 #include "common.h"
+#include "s_time.h"
 #include "var_type_code.h"
 #include "trace.h"
 #include "vcd_comparator.h"

@@ -11,7 +11,7 @@ namespace VcdCT {
 	*/
 	template <typename time_t, typename value_t> class Trace : private std::pair<time_t, value_t> {
 	public:
-		explicit Trace(const time_t& time, const value_t& value) {this->first = time; this->second = value;}
+		explicit Trace(const time_t& time, const value_t& value) : std::pair<time_t, value_t>(time,value) {}
 		time_t getTime() const {return this->first;}
 		value_t getValue() const {return this->second;}
 	};

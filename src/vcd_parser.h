@@ -3,7 +3,6 @@
 
 #include <fstream>
 #include <iostream>
-#include <stack>
 #ifdef HAVE_BOOST_SHARED_PTR_HPP
   #include <boost/shared_ptr.hpp>
 #else

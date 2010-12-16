@@ -109,13 +109,12 @@ namespace VcdCT {
 	  }
 	  // 
 	  
-	  uint64_t curTime = 0;
 	  std::map<std::string, ScalarVar::iterator> smap;
 	  std::map<std::string, VectorVar::iterator> vmap;
 
 	  bool sthDone = false;
 	  bool timeChanged = false;
-	  uint64_t minTime = 0-1; //max uint64_t value
+	  STime minTime(0-1, 1);
 	  //value dump section
 	  for(std::map< std::string,shared_ptr<ScalarVar> >::iterator it = scalars.begin(); it != scalars.end(); ++it) {
 		smap[it->first] = it->second->begin();
@@ -130,7 +129,7 @@ namespace VcdCT {
 	  
 	  
 	  
-	  curTime = minTime;
+	  STime curTime = minTime;
 	  fstWriterEmitTimeChange(ctx, curTime);
 	  
 	  for(;;) {

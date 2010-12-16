@@ -14,6 +14,7 @@
 #endif
 #include "common.h"
 #include "container_variable.h"
+#include "s_time.h"
 #include "trace.h"
 
 using boost::shared_ptr;
@@ -22,9 +23,9 @@ namespace VcdCT {
 	/** The class represents Scalar variable, which is one of two types
 		that are present in VCD files
 	*/
-	class ScalarVar : public ContainerVariable<unsigned long, char> {
+	class ScalarVar : public ContainerVariable<STime, char> {
 	public:
-		typedef unsigned long time_t;
+		typedef STime time_t;
 		typedef char value_t;
 		typedef Trace<time_t, value_t> trace_t;
 		ScalarVar(VarTypeCode::VarTypeEnum varType, std::string varIdent, std::string varReference) : ContainerVariable<time_t, value_t>(varType,varIdent,varReference) {};	
@@ -39,8 +40,7 @@ namespace VcdCT {
 			kept traces
 		*/
 		void addTrace(time_t time, value_t val) {
-		  Trace<time_t, value_t> newTrace(time,val);
-		  this->addTrace(newTrace);
+		  this->addTrace(make_trace(time, val));
 		}
 		void addTrace(trace_t newTrace) {
 		  if(this->empty()) {

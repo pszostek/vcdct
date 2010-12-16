@@ -6,7 +6,7 @@ vcdct_SOURCES=common.h fst_writer.h main.cpp parse_exception.h scalar_var.h \
 	variable.h container_variable.h var_type.gperf vcd_comparator.cpp vcd_header.h vcd_parser.h \
 	vector_var.h file_handling_exception.h fst_writer.cpp scalar_var.cpp trace.h \
 	var_type_code.h var_type_hash.hpp vcd_comparator.h vcd_comparator.hpp \
-	vcd_parser.cpp vector_var.cpp variable.cpp
+	vcd_parser.cpp s_time.h vector_var.cpp variable.cpp
 vcdct_LDADD = $(top_builddir)/src/libfst/libfst.a $(top_builddir)/src/libz/libz.a
 #vcdct_LDADD = $(AM_LDFLAGS)
 
