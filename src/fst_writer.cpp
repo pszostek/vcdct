@@ -130,7 +130,7 @@ namespace VcdCT {
 	  
 	  
 	  STime curTime = minTime;
-	  fstWriterEmitTimeChange(ctx, curTime);
+	  fstWriterEmitTimeChange(ctx, curTime.significand);
 	  
 	  for(;;) {
 		sthDone = false;
