@@ -28,7 +28,7 @@ namespace VcdCT {
 		fstWriterSetPackType(ctx, 0);
 		fstWriterSetRepackOnClose(ctx, 0); 
 		fstWriterSetTimescale(ctx, header->getTimescale());
-	  
+	    DBG_MSG(header->getTimescale());
 		time_t rawtime;
 		time(&rawtime);
 	  
@@ -135,12 +135,12 @@ namespace VcdCT {
 	  for(;;) {
 		sthDone = false;
 		timeChanged = false;
-		minTime = 0-1; //max uint64_t value
+		minTime = STime(0-1,1); //max uint64_t value
 			for(std::map<std::string, ScalarVar::iterator>::iterator smapIter=smap.begin(); smapIter != smap.end(); ++smapIter) {
 				if(smapIter->second != scalars[smapIter->first]->end()) {
 					sthDone = true;
 					if(!timeChanged) {
-						fstWriterEmitTimeChange(ctx, curTime);
+						fstWriterEmitTimeChange(ctx, curTime.significand);
 						timeChanged = true;
 					}
 					if(smapIter->second->getTime() == curTime) { 
@@ -166,7 +166,7 @@ namespace VcdCT {
 				if(vmapIter->second != vectors[vmapIter->first]->end()) {
 					sthDone = true;
 					if(!timeChanged) {
-						fstWriterEmitTimeChange(ctx, curTime);
+						fstWriterEmitTimeChange(ctx, curTime.significand);
 						timeChanged = true;
 					}
 					if(vmapIter->second->getTime() == curTime) { 

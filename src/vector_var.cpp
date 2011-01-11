@@ -11,7 +11,7 @@ namespace VcdCT {
 		    stream << "\t" << s.first << " " << s.second << std::endl;
 		}
 		foreach(VectorVar::trace_t trace, vec) {
-			stream << "#" << trace.getTime() << ":";
+			stream << "#" << (trace.getTime().significand)<< ":";
 			foreach(char ch, trace.getValue()) {
 					stream << ch;
 			}

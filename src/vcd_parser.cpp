@@ -18,7 +18,7 @@
 using boost::shared_ptr;
 
 namespace VcdCT{
-	/*
+	/**
 		The function reads header's tokens one after another
 		and interprets them as definition of: date, version, timescale,
 		up- and downscopes and variables
@@ -29,7 +29,7 @@ namespace VcdCT{
 	shared_ptr<VCDHeader> VCDParser::parseHeader(const std::string& hdr) const throw(ParseException) {
         shared_ptr<VCDHeader> header(new VCDHeader);
 		std::istringstream istream(hdr);
-		std::string token, token1;
+		std::string token;
 		std::vector<std::pair<Variable::ScopeType, std::string> > scopes;
 		
 		for(;;) { /* parse file's header until all valuable informations are extracted */		
@@ -50,8 +50,8 @@ namespace VcdCT{
 			}
 			if(token == "$version") {
 				std::string version;
-				for(;;) { //read in and concatenate all data until "$end" occurs
-					if(!istream.good()) { //there are no words in input stream and $end was not found
+				for(;;) { ///read in and concatenate all data until "$end" occurs
+					if(!istream.good()) { ///there are no words in input stream and $end was not found
 						throw ParseException(ERR("Version statement is badly formed"));
 					}
 					istream >> token;
@@ -65,8 +65,8 @@ namespace VcdCT{
 			}
 			if(token == "$timescale") {
 				std::string timescale;
-				for(;;) { //read in and concatenate all data until "$end" occurs
-					if(!istream.good()) { //there are no words in input stream and $end was not found
+				for(;;) { ///read in and concatenate all data until "$end" occurs
+					if(!istream.good()) { ///there are no words in input stream and $end was not found
 						throw ParseException(ERR("Version statement is badly formed"));
 					}
 					istream >> token;
@@ -112,7 +112,7 @@ namespace VcdCT{
 				continue;
 			}
 			if(token == "$var") {
-				/*
+				/**
 					each variable definition consists of: "$var", var type,
 					var length, var id, var reference and "$end"
 				*/
@@ -132,7 +132,7 @@ namespace VcdCT{
 				if(varType == NULL)
 					throw ParseException(ERR("Unknown variable type"));
 					
-				/* 
+				/** 
 					Check variable length and determine its type.
 					If length is equal to one, then it should be a scalar.
 					If length is greater than one, then it shoudl be a vector
@@ -167,6 +167,7 @@ namespace VcdCT{
 		if(scopes.size() != 0)
 		    throw ParseException(ERR("File header contains too few $upscope keywords"));
 		
+		std::string token1;
 		istream >> token1;
 		//header should terminate with "$enddefinitions $end"
 		if(!(token == "$enddefinitions" && token1 == "$end"))
@@ -226,9 +227,9 @@ namespace VcdCT{
 		return ret;
 	}
 
-	int VCDParser::parseTimescale(const std::string& in) const throw(ParseException) {
+	short VCDParser::parseTimescale(const std::string& in) const throw(ParseException) {
 		
-		int timescale;
+		short timescale;
 		if(in.at(0) != '1')
 			throw ParseException(ERR("Bad format of simulation timescale:\'" + in +"\'"));
 		short zeros = 0;
@@ -293,29 +294,33 @@ namespace VcdCT{
 	void VCDParser::parseValueDump(shared_ptr<VCDHeader>& header, const std::string oneDump) const throw(ParseException) {
 		std::istringstream istream;
 		std::string token, token1;
+		STime dumpTime(0,0);
 		char tokenFirstChar;
-		long dumpTime = -1;
 		bool endExpected = 0;
 		istream.str(oneDump);
 		static const char* keywords[] = {"$dumpon", "$dumpall", "$dumpoff", "$dumpvars"};
+		short timescale = header->getTimescale();
+		istream >> token;
 		
-		/* In this function there is while and for block.
-		 * The former reads the beginning of a single value dump block (it often begins 
-		 * with time value, e.g. #400, and $dump* keyword). If sth other is encountered, then
-		 * the control is passed to the for block 
+		///value dump must start with timestep definition
+		if(token.at(0) == '#') {
+			dumpTime = STime(fromString<long>(std::string(++token.begin(), token.end())), timescale); 
+			/**skip '#' at the first position */
+		} else {
+			throw ParseException(ERR("Expected timestep definition but got: \'" + token + "\'")); 
+		}
+		
+		/** In this function there is 'while' and 'for' block.
+		 * The former reads the beginning of a single value dump and checks for presence of keywords
+		 *.If sth other is encountered, then the control is passed to the 'for' block 
 		 */
 		while(true) {
 			istream >> token;
-			tokenFirstChar = token.at(0);
 			
-			if(tokenFirstChar == '#') {
-				dumpTime = fromString<long>(std::string(++token.begin(), token.end())); /*skip '#' at the first position */
-				continue;
-			} else 
 			if((token == keywords[0]) | (token == keywords[1]) | (token == keywords[2]) | (token == keywords[3])){ //a keyword must have been reached
 				if(endExpected)
 				    throw ParseException(ERR("Encountered unexpected keyword: " + token));
-				endExpected = 1;
+				endExpected = true;
 				continue;
 			} else 
 			if(token == "$end") {
@@ -328,9 +333,10 @@ namespace VcdCT{
 			}
         }
         
-        /* This for block reads value entries one after the other, sanitizes
+        /** This for block reads value entries one after the other, sanitizes
          * it and adds to an appropriate list
          */
+		tokenFirstChar = token.at(0);
         for(;;){
 			if(tokenFirstChar == 'b') { /* we probably found a vector value */
 			    istream >> token1;
@@ -341,13 +347,13 @@ namespace VcdCT{
 			    if(it == header->getVectors().end())
 					throw ParseException(ERR("Unknown variable identifier in value dump section: " + vcdid));
 				
-				/* check if value isn't longer than the vector */
+				/** check if value isn't longer than the vector */
 				if(it->second->getLength() < value.length())
 					throw ParseException(ERR("Invalid vector value length of " + value));
-				/* expand and save value */
+				/** expand and save value */
 				VectorVar::value_t vectorValueVec = expandVectorValue(value, it->second);
 				it->second->addTrace(dumpTime, VectorVar::value_t(vectorValueVec));
-			} else /* probably a scalar value */
+			} else /** probably a scalar value */
 			if((tokenFirstChar == '1') | (tokenFirstChar == '0') | (tokenFirstChar == 'z') | (tokenFirstChar == 'Z') 
 				| (tokenFirstChar == 'x') | (tokenFirstChar == 'X')) {
 			    std::string vcdid( token.begin()+1, token.end());
@@ -360,7 +366,7 @@ namespace VcdCT{
 			    break /* for */;
 			}
 			    
-			/* fetch the next line, skip blank lines */
+			/** fetch the next line, skip blank lines */
 			if(istream.good()) {
 				istream >> token;
 				tokenFirstChar = token.at(0);

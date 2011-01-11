@@ -54,7 +54,7 @@ class VCDParser {
 		/** The function takes $timescale ... $end statement and converts it into timestep length
 			\return exponent of 10 for timestep lenght expressed as 10^x
 		*/
-		int parseTimescale(const std::string& in) const throw(ParseException);
+		short parseTimescale(const std::string& in) const throw(ParseException);
 		/** Expands read vector value to its proper length. According to Verilog
 			Reference Manual, vector value can be written in shorter form than it appears to be:
 			''Vector values appear in the shortest form possible: redundant

@@ -27,7 +27,7 @@ namespace VcdCT {
 	public:
 		std::string getVersion() const {return version_;}
 		void setVersion(std::string version) {version_ = version;}
-		int getTimescale() {return timescale_;}
+		short getTimescale() const {return timescale_;}
 		void setTimescale(int timescale) {timescale_ = timescale;}
 		std::string getTDate() const {return date_;}
 		void setDate(std::string date) {date_ = date;}
@@ -54,7 +54,7 @@ namespace VcdCT {
 		/** Version from vcd file */
 		std::string version_;
 		/** Timescale from vcd file in form of exponent of 10, when single timestep expressed in second */
-		int timescale_;
+		short timescale_;
 		/** Date of simulation from vcd file */
 		std::string date_;
 		/** Map of file's vectors. The keys are variable references and values are pointers to variables.

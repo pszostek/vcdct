@@ -13,7 +13,7 @@ namespace VcdCT {
 
 	shared_ptr<VCDHeader> VCDComparator::compareFiles(shared_ptr<VCDHeader> h1, shared_ptr<VCDHeader> h2) {
 		shared_ptr<VCDHeader> ret = shared_ptr<VCDHeader>(new VCDHeader());
-		
+		ret->setTimescale(min(h1->getTimescale(), h2->getTimescale()));
 		{ /* scope for vectors */
 		    std::map<std::string, shared_ptr<VectorVar> >::const_iterator h1VecIter= h1->getVectors().begin();
 		    std::map<std::string, shared_ptr<VectorVar> >::const_iterator h2VecIter= h2->getVectors().begin();

@@ -1,17 +1,18 @@
 #ifndef _SCALARVAR_H_
 #define _SCALARVAR_H_
 
-#include <string>
+#include <iostream>
 #include <list>
-#include <vector>
-#include <iostream>
+#include <string>
 #include <utility>
-#include <iostream>
+#include <vector>
+
 #ifdef HAVE_BOOST_SHARED_PTR_HPP
   #include <boost/shared_ptr.hpp>
 #else
   #include "boost/shared_ptr.hpp"
 #endif
+
 #include "common.h"
 #include "container_variable.h"
 #include "s_time.h"

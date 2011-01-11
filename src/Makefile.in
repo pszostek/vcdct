@@ -46,7 +46,7 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_vcdct_OBJECTS = main.$(OBJEXT) vcd_comparator.$(OBJEXT) \
 	fst_writer.$(OBJEXT) scalar_var.$(OBJEXT) vcd_parser.$(OBJEXT) \
-	vector_var.$(OBJEXT) variable.$(OBJEXT)
+	s_time.$(OBJEXT) vector_var.$(OBJEXT) variable.$(OBJEXT)
 vcdct_OBJECTS = $(am_vcdct_OBJECTS)
 vcdct_DEPENDENCIES = $(top_builddir)/src/libfst/libfst.a \
 	$(top_builddir)/src/libz/libz.a
@@ -206,7 +206,7 @@ vcdct_SOURCES = common.h fst_writer.h main.cpp parse_exception.h scalar_var.h \
 	variable.h container_variable.h var_type.gperf vcd_comparator.cpp vcd_header.h vcd_parser.h \
 	vector_var.h file_handling_exception.h fst_writer.cpp scalar_var.cpp trace.h \
 	var_type_code.h var_type_hash.hpp vcd_comparator.h vcd_comparator.hpp \
-	vcd_parser.cpp s_time.h vector_var.cpp variable.cpp
+	vcd_parser.cpp s_time.h s_time.cpp vector_var.cpp variable.cpp
 
 vcdct_LDADD = $(top_builddir)/src/libfst/libfst.a $(top_builddir)/src/libz/libz.a
 all: all-recursive
@@ -292,6 +292,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fst_writer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/s_time.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scalar_var.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/variable.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vcd_comparator.Po@am__quote@
